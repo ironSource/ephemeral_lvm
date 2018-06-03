@@ -67,12 +67,17 @@ module EphemeralLvm
             device =~ %r{\/dev\/} ? device : "/dev/#{device}"
           end
         end
-
+      
+        # Add all ephemeral NVMe devices
+        node['block_device'].each do |device,spec|
+          if device.match(/^nvme/) && spec['model'] == "Amazon EC2 NVMe Instance Storage"
+            ephemeral_devices << "/dev/#{device}"
+          end
+        end   
+            
         # Removes nil elements from the ephemeral_devices array if any.
         ephemeral_devices.compact!
-
-        # Add all NVMe devices
-        ephemeral_devices.concat Dir.glob('/dev/nvme*n*')
+    
 
         # Servers running on Xen hypervisor require the block device to be in /dev/xvdX instead of /dev/sdX
         if node.attribute?('virtualization') && node['virtualization']['system'] == 'xen'
