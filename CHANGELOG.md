@@ -2,6 +2,9 @@ ephemeral_lvm Cookbook CHANGELOG
 =======================
 
 This file is used to list changes made in each version of the ephemeral_lvm cookbook.
+v3.0.2
+------
+- Fixed detection for NVMe ephemeral devices in EC2 [choosing only internal storage device]
 
 v3.0.1
 ------
