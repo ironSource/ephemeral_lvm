@@ -114,12 +114,10 @@ module EphemeralLvm
       devices.map! do |device|
         if node_block_devices.include?(device.match(%{\/dev\/(.+)$})[1])
           device
-          Chef::Log.info "device #{device}"
         else
           fixed_device = device.sub('/sd', '/xvd')
           if node_block_devices.include?(fixed_device.match(%{\/dev\/(.+)$})[1])
             fixed_device
-            Chef::Log.info "fixed device #{fixed_device}"
           else
             Chef::Log.warn "could not find ephemeral device: #{device}"
             nil
