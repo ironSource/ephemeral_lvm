@@ -80,7 +80,7 @@ module EphemeralLvm
     
 
         # Servers running on Xen hypervisor require the block device to be in /dev/xvdX instead of /dev/sdX
-        if node.attribute?('virtualization') && node['virtualization']['system'] == 'xen'
+        if node.attribute?('virtualization') || node['virtualization']['system'] == 'xen' 
           Chef::Log.info "Mapping for devices: #{ephemeral_devices.inspect}"
           ephemeral_devices = EphemeralLvm::Helper.fix_device_mapping(
             ephemeral_devices,
